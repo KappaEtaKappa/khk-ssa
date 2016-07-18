@@ -1,0 +1,7 @@
+<% include inc/head %>
+<form action="/signin-attempt?e=<%- errorCount %>" method="POST">
+	<input type="text" name="name"></input>
+	<input type="password" name="pass"></input>
+	<input type="submit"></input>
+</form>
+<% include inc/foot %>

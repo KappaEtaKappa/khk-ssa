@@ -1,0 +1,18 @@
+<div id="header">
+	<div id="header-app">
+		<span>The Delta</span>
+	</div>
+	<img src="">
+	<div id="header-user-drop">
+		<a href="/signout">Sign Out</a>
+		<i class="fa fa-sign-out"></i>
+	</div>
+	<div id="header-user">
+		<% if(logged){ %>
+			<% if(user.privilegeLevel == 2) %>
+				<i class="fa fa-bolt admin"></i>
+			<span><%- user.name %></span>
+		<% } %>
+	</div>
+
+</div>
