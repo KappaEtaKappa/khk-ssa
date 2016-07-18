@@ -7,28 +7,31 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var app = express();
+var delta = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+delta.set('views', path.join(__dirname, 'views'));
+delta.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//delta.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+delta.use(logger('dev'));
+delta.use(bodyParser.json());
+delta.use(bodyParser.urlencoded({ extended: false }));
+delta.use(cookieParser());
+delta.use(express.static(path.join(__dirname, 'public')));
 
-app.get("/", function(req, res){
-        res.render("index", {});
+delta.get("/", function(req, res){
+	data = {};
+	data.user = ssa.getUserInformation();
+	data.logged = ssa.isLoggedIn();
+	
+    res.render("index", data);
 });
 
 
 // catch 404 and logged state before forward to error handler
-app.use(function(req, res, next) {
-  console.log("asdf");
+delta.use(function(req, res, next) {
   if(!ssa.isLoggedIn(req))
     res.redirect("/signin");	  
 
@@ -37,14 +40,14 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-app.get("/", function(req, res){
+delta.get("/", function(req, res){
         res.render("index", {});
 });
 
-app.get("/signin", function(req, res){
+delta.get("/signin", function(req, res){
 	res.render("signin", {});
 });
 
-module.exports = app;
+module.exports = delta;
 
-app.listen(1024);
+delta.listen(1024);

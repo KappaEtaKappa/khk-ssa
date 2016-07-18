@@ -3,6 +3,21 @@
 	<head>
 		<title>THE DELTA</title>
 		<link rel='stylesheet' href='/css/style.css' />
+		<link rel='stylesheet' href='/css/fa.css' />
 		<script src='/js/script.js'></script>
 	</head>
 	<body>
+		<div id="header">
+			<div id="header-app">
+				<span>The Delta</span>
+			</div>
+			<img src="">
+			<div id="header-user">
+				<% if(logged){ %>
+					<% if(user.privilage = 2) %>
+						<i class="fa fa-bolt admin"></i>
+					<span><%- user.name %></span>
+				<% } %>
+			</div>
+		</div>
+		<div id="content">

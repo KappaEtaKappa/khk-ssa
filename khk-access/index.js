@@ -2,14 +2,15 @@ module.exports = {
 	isLoggedIn:function(){
 		return true;
 	},
-	privilegeLevel(){
+	privilegeLevel:function(){
 		return 1;
 	},
-	getUserInformation(){
+	getUserInformation:function(){
 		var user = {
-			name:undefined,
+			name:"admin",
 			id:undefined,
 			approvedApps:[],
+			privilegeLevel:2,
 			loggedInSince:undefined
 		};
 		return user;
