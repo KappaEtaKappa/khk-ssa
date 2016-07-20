@@ -1,7 +1,10 @@
 <% include inc/head %>
-<form action="/signin-attempt?e=<%- errorCount %>" method="POST">
-	<input type="text" name="name"></input>
-	<input type="password" name="pass"></input>
-	<input type="submit"></input>
+<form id="signin-form" action="/signin-attempt?e=<%- errorCount %>" method="POST">
+	<img src="/img/delta.png">
+	<span>Sign Into The Delta...</span>
+	<input type="text" name="name" placeholder="Name"></input>
+	<input type="password" name="pass" placeholder="Password"></input>
+	<button type="submit" id="signin-submit">Submit</button>
+	<div class="clearfix"></div>
 </form>
 <% include inc/foot %>

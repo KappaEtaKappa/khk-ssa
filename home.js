@@ -40,20 +40,22 @@ delta.use(function(req, res, next) {
 
 
 delta.get("/", function(req, res){
-  ssa.getUserInformation(req.cookies.token, function(err, user){
-    data = {};
-    data.user = user;
-    data.logged = true;
-    
-    res.render("index", data);
-  });
+	ssa.getUserInformation(req.cookies.token, function(err, user){
+		data = {};
+		data.user = user;
+		data.logged = true;
+		ssa.getApplications(req.cookies.token, function(err, apps){
+			data.apps = apps
+			res.render("index", data);
+		});    
+	});
 });
 
 
 delta.get("/signin", function(req, res){
   if(!req.query.e)
     req.query.e = 0;
-	res.render("signin", {errorCount:req.query.e, logged:false});
+	res.render("signin", {errorCount:req.query.e, logged:false, title:"Please Sign In"});
 });
 delta.post("/signin-attempt", function(req, res){
   ssa.logIn(req.body.name, req.body.pass, function(err, token){

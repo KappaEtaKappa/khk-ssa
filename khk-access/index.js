@@ -3,6 +3,14 @@ function hash(data){
 	return crypto.createHash('md5').update(data).digest("hex");
 }
 
+function sendTo(callback, err, val, dataname){
+	if(err)
+		console.log("Failed to get " +dataname+ ". Error: " +err);
+	if(!val)
+		console.log("Data not found. [" +val+ "]");
+	callback(err, val);
+}
+
 module.exports = function(){
 
 	var fs = require('fs');
@@ -20,9 +28,17 @@ module.exports = function(){
 	}
 
 	return {
+		getApplications:function(token, callback){
+			this.getPriviledgeLevel(token, function(err, level){
+				db.all("SELECT * FROM apps WHERE privilegeRequired < ?", level, function(err, apps){
+					console.log(apps);
+					sendTo(callback, err, apps, "applications");
+				});
+			});
+		},
 		isLoggedIn:function(token, callback){
 			db.get("SELECT * FROM access WHERE token = ?;", token, function(err, access){
-				console.log(err, access)
+				console.log(err, access);
 				if(err)
 					throw err;
 				else if(!access || access.exp_date < (new Date().getTime()))
@@ -31,7 +47,7 @@ module.exports = function(){
 					callback(true);
 			})
 		},
-		privilegeLevel:function(token, callback){
+		getPriviledgeLevel:function(token, callback){
 			db.get("SELECT * FROM access WHERE token = ?;", token, function(err, access){
 				if(err)
 					throw err;

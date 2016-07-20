@@ -14,7 +14,16 @@ a {
 .admin {
 	color:#fc0;
 }
-
+.fa-angle-right {
+	transform:scale(1,1.8); /* W3C */
+	-webkit-transform:scale(1,1.8); /* Safari and Chrome */
+	-moz-transform:scale(1,1.8); /* Firefox */
+	-ms-transform:scale(1,1.8); /* IE 9 */
+	-o-transform:scale(1,1.8); /* Opera */
+}
+.clearfix {
+	clear: both;
+}
 /*
  * header
  */
@@ -26,6 +35,7 @@ a {
 	background: #8A63A8;
 	width: 100%;
 	height: 40px;
+	border-bottom: 2px solid #fc0;
 }
 
 #header-app {
@@ -46,21 +56,21 @@ a {
 	font-size: 1.2em;
 	font-weight: bold;
 }
-#header-user-drop {
+#header-user-out {
 	display: inline-block;
 	margin: 4px;
 	padding: 6px;
 
-	float:right;
+	float: right;
 	color:white;
 	font-size: 1.2em;
 	cursor: pointer;
 }
-#header-user-drop a {
+#header-user-out a {
 	text-decoration: none;
 	color: white;
 }
-#header-user-drop:hover {
+#header-user-out:hover {
 	background-color: #5d4072;
 }
 
@@ -72,4 +82,71 @@ a {
 	padding-left: 15px;
 	padding-right: 15px;
 
+	height: 100vh;
+	width: 100vw;
+	background: #ccc;
+}
+
+
+/*
+ * signin
+ */
+#signin-form {
+	width: 400px;
+	margin-top: 20vh;
+	margin-left: auto;
+	margin-right: auto;
+	background: #8A63A8;
+	padding: 10px;
+	box-shadow: 10px 10px 5px #888;
+	border: 2px solid #fc0;
+}
+#signin-form > input {
+	display: block;
+	width: 100%;
+	padding: 5px;
+	margin-bottom: 3px;
+	border-color: #888;
+}
+#signin-form > img {
+	display: block;
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#signin-form > span {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+	width: 100%;
+	text-align: center;
+}
+#signin-submit {
+	padding: 5px;
+	font-size: 1.1em;
+	float: right;
+	display: block;
+}
+
+/*
+ * apps
+ */
+#applications {
+	padding-top: 25px;
+	padding-left: 10%;
+	padding-right: 10%;
+}
+.application {
+	width:120px;
+	background: #8A63A8;
+	border: 2px solid #fc0;
+	color: white;
+	text-align: center;
+	padding: 15px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+}
+.application i {
+	display: block;
+	font-size: 3em;
 }

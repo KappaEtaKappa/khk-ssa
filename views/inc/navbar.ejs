@@ -1,18 +1,26 @@
 <div id="header">
 	<div id="header-app">
 		<span>The Delta</span>
-	</div>
-	<img src="">
-	<div id="header-user-drop">
-		<a href="/signout">Sign Out</a>
-		<i class="fa fa-sign-out"></i>
-	</div>
-	<div id="header-user">
-		<% if(logged){ %>
-			<% if(user.privilegeLevel == 2) %>
-				<i class="fa fa-bolt admin"></i>
-			<span><%- user.name %></span>
+		<% if(locals.title) { %>
+			<i class="fa fa-angle-right"></i>
+			<span><%- title %></span>
 		<% } %>
 	</div>
-
+	<img src="">
+	<% if(logged){ %>
+		<div id="header-user-out">
+			<a href="/signout">Sign Out</a>
+			<i class="fa fa-sign-out"></i>
+		</div>
+		<div id="header-user">
+				<% if(user.privilegeLevel == 2) %>
+					<i class="fa fa-bolt admin"></i>
+				<span><%- user.name %></span>
+		</div>
+	<% } else { %>
+		<div id="header-user-out">
+			<i class="fa fa-exclamation-circle"></i>
+			<a>Not signed in, access may be limited...</a>
+		</div>
+	<% } %>
 </div>

@@ -1,4 +1,14 @@
 <% include inc/head %>
-<h1>Welcome to the Delta</h1>
-<p><%- user %></p>
+	<div id="applications">
+		<% for(var i=0; i<apps.length; i++){ %>
+			<div class="application">
+				<% if(apps[i].image) { %>
+					<img src="/img/<%- apps[i].image %>">
+				<% } else { %>
+					<i class="fa <%- apps[i].icon %>"></i>
+				<% } %>
+				<%- apps[i].name %>
+			</div>
+		<% } %>
+	</div>
 <% include inc/foot %>
