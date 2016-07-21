@@ -135,9 +135,11 @@ a {
 	padding-top: 25px;
 	padding-left: 10%;
 	padding-right: 10%;
+	display: inline-flex;
 }
 .application {
-	width:120px;
+	margin: 20px;
+	width:140px;
 	background: #8A63A8;
 	border: 2px solid #fc0;
 	color: white;
@@ -145,8 +147,16 @@ a {
 	padding: 15px;
 	padding-top: 25px;
 	padding-bottom: 25px;
+	cursor: pointer;
+}
+.application:hover {
+	background: #916cac;
+}
+.application:active {
+	background: #785393;
 }
 .application i {
 	display: block;
 	font-size: 3em;
+	margin-bottom: 15px;
 }
