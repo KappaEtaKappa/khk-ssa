@@ -22,14 +22,12 @@ delta.use(cookieParser());
 delta.use(express.static(path.join(__dirname, 'public')));
 
 delta.use(function(req, res, next) {
-  console.log(req.path)
   if(["/signin","/signin-attempt"].indexOf(req.path) > -1){
     next();
     return;
   }
 
   ssa.isLoggedIn(req.cookies.token, function(isLogged){
-    console.log(isLogged)
     if(!isLogged)
       res.redirect("/signin");    
     else
