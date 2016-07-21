@@ -58,20 +58,25 @@ a {
 }
 #header-user-out {
 	display: inline-block;
-	margin: 4px;
+	margin: 3px;
 	padding: 6px;
 
 	float: right;
 	color:white;
 	font-size: 1.2em;
 	cursor: pointer;
+
+	border-radius: 8px;
 }
 #header-user-out a {
 	text-decoration: none;
 	color: white;
 }
 #header-user-out:hover {
-	background-color: #5d4072;
+	background: #916cac;
+}
+#header-user-out:active {
+	background: #785393;
 }
 
 /*

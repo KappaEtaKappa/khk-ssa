@@ -30,7 +30,7 @@ module.exports = function(){
 	return {
 		getApplications:function(token, callback){
 			this.getPriviledgeLevel(token, function(err, level){
-				db.all("SELECT * FROM apps WHERE privilegeRequired < ?", level, function(err, apps){
+				db.all("SELECT * FROM apps WHERE privilegeRequired <= ?", level, function(err, apps){
 					console.log(apps);
 					sendTo(callback, err, apps, "applications");
 				});
