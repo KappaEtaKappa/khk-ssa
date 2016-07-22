@@ -1,4 +1,3 @@
-var ssa = require(__dirname + '/khk-access')();
 
 var express = require('express');
 var path = require('path');
@@ -8,6 +7,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var delta = express();
+
+var ssa = require(__dirname + '/khk-access')(delta);
 
 // view engine setup
 delta.set('views', path.join(__dirname, 'views'));

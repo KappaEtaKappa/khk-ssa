@@ -1,4 +1,6 @@
 var crypto = require('crypto');
+var ejs = require('ejs');
+
 function hash(data){
 	return crypto.createHash('md5').update(data).digest("hex");
 }
@@ -101,6 +103,23 @@ module.exports = function(){
 				else
 					callback(null);
 			});
+		},
+		getNavbar:function(token, appName, callback){
+			console.log("here")
+			if(!token)
+				callback("Error: no token");
+			else 
+				this.getUserInformation(token, function(err, userObj){
+					if(err || !userObj){
+						var ejsTemplate = fs.readFileSync('../khk-ssa/views/inc/navbar-ext.ejs', "utf8")
+						var str = ejs.render(ejsTemplate, {filename:"navbar-ext.ejs", logged:false, title:appName, user:{}});
+						callback("error getting user", str);
+					} else {
+						var ejsTemplate = fs.readFileSync('../khk-ssa/views/inc/navbar-ext.ejs', "utf8")
+						var str = ejs.render(ejsTemplate, {filename:"navbar-ext.ejs", logged:true, title:appName, user:userObj});
+						callback(null, str);
+					}
+				});
 		}
 	}
 }
