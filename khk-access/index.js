@@ -49,8 +49,13 @@ module.exports = function(){
 					callback(true);
 			})
 		},
+		getSessionByToken:function(token, callback){
+			db.get("SELECT * FROM access WHERE token = ? AND exp_date > ?;", token, Date.now(), function(err, access){
+				sendTo(callback, err, access, "session");
+			});
+		},
 		getPriviledgeLevel:function(token, callback){
-			db.get("SELECT * FROM access WHERE token = ?;", token, function(err, access){
+			this.getSessionByToken(token, function(err, access){
 				if(err)
 					throw err;
 				else if(!access)
@@ -65,7 +70,7 @@ module.exports = function(){
 			});
 		},
 		getUserInformation:function(token, callback){
-			db.get("SELECT * FROM access WHERE token = ?;", token, function(err, access){
+			this.getSessionByToken(token, function(err, access){
 				if(err)
 					throw err;
 				else if(!access)
@@ -120,6 +125,20 @@ module.exports = function(){
 						callback(null, str);
 					}
 				});
+		},
+		navbar:function(req, res, next){
+			if(!req.cookies.token){
+			  res.redirect('http://home.d.khk.org')
+			}else{
+			  global.ssa.getNavbar(req.cookies.token, "Roster", function(err, htmlStr){
+				if(err || !htmlStr)
+					res.redirect('http://home.d.khk.org');
+				else{
+				  res.locals.navbar = htmlStr;
+				  next();
+				}
+			  });
+			}
 		}
 	}
 }
