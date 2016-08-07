@@ -32,4 +32,5 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
-filldb.js
+khk-access/filldb.js
+khk-access/db.sqlite
