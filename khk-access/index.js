@@ -126,18 +126,20 @@ module.exports = function(){
 					}
 				});
 		},
-		navbar:function(req, res, next){
-			if(!req.cookies.token){
-			  res.redirect('http://home.d.khk.org')
-			}else{
-			  global.ssa.getNavbar(req.cookies.token, "Roster", function(err, htmlStr){
-				if(err || !htmlStr)
-					res.redirect('http://home.d.khk.org');
-				else{
-				  res.locals.navbar = htmlStr;
-				  next();
+		navbar:function(appName){
+			return function(req, res, next){
+				if(!req.cookies.token){
+				  res.redirect('http://home.d.khk.org')
+				}else{
+				  global.ssa.getNavbar(req.cookies.token, appName, function(err, htmlStr){
+					if(err || !htmlStr)
+						res.redirect('http://home.d.khk.org');
+					else{
+					  res.locals.navbar = htmlStr;
+					  next();
+					}
+				  });
 				}
-			  });
 			}
 		}
 	}
