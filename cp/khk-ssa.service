@@ -4,7 +4,7 @@ Type=forking
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/node /home/admin/khk-ssa/home.js
+ExecStart=/usr/bin/node /opt/khk-web/khk-ssa/home.js
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=always
