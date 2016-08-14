@@ -63,7 +63,7 @@ delta.post("/signin-attempt", function(req, res){
       res.redirect("/signin?e="+(++req.query.errorCount));
     }
     else{
-      res.cookie('token', token, {expires:new Date(Date.now()+10800000)})
+      res.cookie('token', token, {expires:new Date(Date.now()+10800000), domain : "do.khk.org" })
       res.redirect("/");
     }
   });

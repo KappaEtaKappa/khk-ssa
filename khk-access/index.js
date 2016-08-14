@@ -116,11 +116,11 @@ module.exports = function(){
 			else 
 				this.getUserInformation(token, function(err, userObj){
 					if(err || !userObj){
-						var ejsTemplate = fs.readFileSync('../khk-ssa/views/inc/navbar-ext.ejs', "utf8")
+						var ejsTemplate = fs.readFileSync(__dirname + '/../views/inc/navbar-ext.ejs', "utf8")
 						var str = ejs.render(ejsTemplate, {filename:"navbar-ext.ejs", logged:false, title:appName, user:{}});
 						callback("error getting user", str);
 					} else {
-						var ejsTemplate = fs.readFileSync('../khk-ssa/views/inc/navbar-ext.ejs', "utf8")
+						var ejsTemplate = fs.readFileSync(__dirname + '/../views/inc/navbar-ext.ejs', "utf8")
 						var str = ejs.render(ejsTemplate, {filename:"navbar-ext.ejs", logged:true, title:appName, user:userObj});
 						callback(null, str);
 					}
@@ -128,12 +128,13 @@ module.exports = function(){
 		},
 		navbar:function(appName){
 			return function(req, res, next){
+				console.log("attempted access:", req.cookies.token);
 				if(!req.cookies.token){
-				  res.redirect('http://home.d.khk.org')
+				  res.redirect('http://home.do.khk.org')
 				}else{
 				  global.ssa.getNavbar(req.cookies.token, appName, function(err, htmlStr){
 					if(err || !htmlStr)
-						res.redirect('http://home.d.khk.org');
+						res.redirect('http://home.do.khk.org');
 					else{
 					  res.locals.navbar = htmlStr;
 					  next();
