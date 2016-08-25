@@ -1,0 +1,7 @@
+<% include inc/head %>
+<form id="saml-acs" action="https://www.google.com/a/do.khk.org/acs" method="POST">
+	<input type="hidden" name="SAMLResponse" value="<%= SAMLresponse %>">
+	<input type="hidden" name="RelayState" value="<%= RelayState %>">
+	<input type="submit">	
+</form>
+<% include inc/foot %>

@@ -1,0 +1,35 @@
+<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="<%=responseId%>" <% if(!excludeInResponseTo) { %>InResponseTo="<%=spAssertionId%>"<%}%> Version="2.0" IssueInstant="<%=timestamp%>" Destination="<%=acsUrl%>">
+	<saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"><%=issuer%></saml:Issuer>
+	<samlp:Status xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">
+		<samlp:StatusCode xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" Value="urn:oasis:names:tc:SAML:2.0:status:Success"></samlp:StatusCode>
+	</samlp:Status>
+	<saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="<%=assertionId%>" IssueInstant="<%=timestamp%>" Version="2.0">
+		<saml:Issuer><%=issuer%></saml:Issuer>
+		<saml:Subject>
+			<saml:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress" NameQualifier="<%=nameQualifier%>"><%=email%></saml:NameID>
+			<saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+				<saml:SubjectConfirmationData <% if(!excludeInResponseTo) { %>InResponseTo="<%=spAssertionId%>"<%}%> NotOnOrAfter="<%=notOnOrAfter%>" Recipient="<%=acsUrl%>"/></saml:SubjectConfirmation>
+		</saml:Subject>
+		<% if (conditions) { %>
+		<saml:Conditions NotBefore="<%=conditions.notBefore%>" NotOnOrAfter="<%=conditions.notOnOrAfter%>">
+			<saml:AudienceRestriction>
+				<saml:Audience><%=conditions.audience%></saml:Audience>
+			</saml:AudienceRestriction>
+		</saml:Conditions>
+		<% } %>
+		<% if (attributes) { %>
+		<saml:AttributeStatement>
+			<% for(var i = 0; i < attributes.length; i++) { %>
+			<saml:Attribute Name="<%= attributes[i].name%>">
+				<saml:AttributeValue><%= attributes[i].value %></saml:AttributeValue>
+			</saml:Attribute>
+			<% } %>
+		</saml:AttributeStatement>
+		<% } %>
+		<saml:AuthnStatement AuthnInstant="<%=timestamp%>" SessionIndex="<%=sessIndex%>">
+			<saml:AuthnContext>
+				<saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml:AuthnContextClassRef>
+			</saml:AuthnContext>
+		</saml:AuthnStatement>
+	</saml:Assertion>
+</samlp:Response>

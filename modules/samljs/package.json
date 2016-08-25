@@ -1,0 +1,49 @@
+{
+	"name": "samljs",
+	"version": "0.0.1",
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "https://github.com/Mindflash/samljs/raw/master/LICENSE"
+		}
+	],
+	"scripts": {
+		"test": "tap tests/*.js"
+	},
+	"keywords": [
+		"saml",
+		"adfs",
+		"sso"
+	],
+	"description": "SAML 2.0 library for nodejs",
+	"author": {
+		"name": "Josh Larsen",
+		"email": "josh.larsen@mindflash.com",
+		"url": "http://www.mindflash.com"
+	},
+	"contributors": [
+		{
+			"name": "Henri Bergius",
+			"email": "henri.bergius@iki.fi",
+			"url": "http://bergie.iki.fi"
+		}
+	],
+	"main": "./index.js",
+	"dependencies": {
+		"xml-crypto": "0.1.25",
+		"xml2js": "^0.4.13",
+		"xmldom": "0.1.x",
+		"xpath": "*",
+		"lodash": "*"
+	},
+	"devDependencies": {
+		"ejs": "0.8.x",
+		"jshint": "*",
+		"tap": "~0.4.3",
+		"mockery": "~1.4.0"
+	},
+	"engines": {
+		"node": ">= 0.9.0"
+	},
+	"readmeFilename": "README.md"
+}
