@@ -6,6 +6,7 @@
 
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background:#ccc;
 }
 
 a {
@@ -79,6 +80,16 @@ a {
 #header-user-out:active {
 	background: #785393;
 }
+@media screen and (min-width: 480px) {
+	#header{
+		font-size:3em;
+		height:80px;
+	}
+	#header-user-out span {
+		display:none;
+	}
+}
+
 
 /*
  * content
@@ -87,12 +98,16 @@ a {
 	padding-top: 45px;
 	padding-left: 15px;
 	padding-right: 15px;
-
+	padding-bottom:15px;
 	height: 100vh;
 	width: 100vw;
 	background: #ccc;
 }
-
+@media screen and (min-width: 480px) {
+	#content{
+		padding-top:85px;
+	}
+}
 
 /*
  * signin
@@ -133,6 +148,28 @@ a {
 	float: right;
 	display: block;
 }
+@media screen and (min-width: 480px) {
+	#signin-form {
+		width:90%;
+	}
+	#signin-form > input {
+		font-size: 2.5em;
+		padding:8px;
+	}
+	#signin-form > span {
+		font-size:2em;
+		margin-bottom:10px;
+	}
+	#signin-submit {
+		font-size:2.5em;
+		padding:10px;
+		float:none;
+		width:100%;
+	}
+	#signin-form > img {
+		width:80%;
+	}
+}
 
 /*
  * apps
@@ -165,4 +202,15 @@ a {
 	display: block;
 	font-size: 3em;
 	margin-bottom: 15px;
+}
+@media screen and (min-width: 480px) {
+	#applications {
+		display:block;
+	}
+	.application {
+		width:100%;
+		margin:0;
+		margin-bottom:10px;
+		font-size:4em;
+	}
 }

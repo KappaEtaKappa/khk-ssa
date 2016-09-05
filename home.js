@@ -123,7 +123,7 @@ delta.get("/idp", function(req, res){
 delta.get("/signin", function(req, res){
   if(!req.query.e)
     req.query.e = 0;
-	res.render("signin", {errorCount:req.query.e, logged:false, title:"Please Sign In", rf:req.path});
+	res.render("signin", {errorCount:req.query.e, logged:false, title:"Please Sign In", rf:"/"});
 });
 delta.post("/signin-attempt", function(req, res){
   ssa.logIn(req.body.name, req.body.pass, function(err, token){
