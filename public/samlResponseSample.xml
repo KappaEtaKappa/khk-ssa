@@ -1,0 +1,36 @@
+<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="_6f175b7c7adee41da153" InResponseTo="dgklloffjlfkbciboaapfekmdlhnaclkmmgddfmp" Version="2.0" IssueInstant="2016-08-25T05:37:33.174Z" Destination="https://www.google.com/a/do.khk.org/acs">
+	<saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">do.khk.org</saml:Issuer>
+	<samlp:Status xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">
+		<samlp:StatusCode xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" Value="urn:oasis:names:tc:SAML:2.0:status:Success"></samlp:StatusCode>
+	</samlp:Status>
+	<saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="_ed83fc0cd4ea274b0151" IssueInstant="2016-08-25T05:37:33.174Z" Version="2.0">
+		<saml:Issuer>do.khk.org</saml:Issuer>
+		<saml:Subject>
+			<saml:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress" NameQualifier="do.khk.org">khk@do.khk.org</saml:NameID>
+			<saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+				<saml:SubjectConfirmationData InResponseTo="dgklloffjlfkbciboaapfekmdlhnaclkmmgddfmp" NotOnOrAfter="2016-08-25T08:37:33.173Z" Recipient="https://www.google.com/a/do.khk.org/acs"/></saml:SubjectConfirmation>
+		</saml:Subject>
+		
+		<saml:Conditions NotBefore="2016-08-25T05:37:33.173Z" NotOnOrAfter="2016-08-25T08:37:33.173Z">
+			<saml:AudienceRestriction>
+				<saml:Audience>undefined</saml:Audience>
+			</saml:AudienceRestriction>
+		</saml:Conditions>
+		
+		
+		<saml:AttributeStatement>
+			
+			<saml:Attribute Name="email">
+				<saml:AttributeValue>khk@do.khk.org</saml:AttributeValue>
+			</saml:Attribute>
+			
+		</saml:AttributeStatement>
+		
+		<saml:AuthnStatement AuthnInstant="2016-08-25T05:37:33.174Z" SessionIndex="undefined">
+			<saml:AuthnContext>
+				<saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml:AuthnContextClassRef>
+			</saml:AuthnContext>
+		</saml:AuthnStatement>
+	</saml:Assertion>
+</samlp:Response>
+

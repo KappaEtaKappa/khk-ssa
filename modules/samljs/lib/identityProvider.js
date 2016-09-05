@@ -71,13 +71,13 @@ module.exports = function() {
 		var ejsParams = util.generateAuthResponseParams(settings);
 		var xmlTemplate = fs.readFileSync(authRequestTemplateXMLFile).toString();
 		var xml = ejs.render(xmlTemplate, ejsParams);
-		console.log(xml);
+		
 		// sign it
 		var signedXml = util.signAuthenticationResponse(xml, settings.idp.privateKey, settings.idp.cert);
-		
+		//console.log(signedXml);
 		// compress it
-		return util.deflateAndEncode(signedXml, cb);
-//		return cb(null, util.decode(signedXml, "utf8", "base64"));
+//		return util.deflateAndEncode(signedXml, cb);
+		return cb(null, util.decode(signedXml, "utf8", "base64"));
 
 	}
 	

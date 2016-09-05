@@ -1,6 +1,10 @@
+var fs = require('fs');
+var path = require('path');
+var idp = require(path.join(__dirname, './modules/samljs')).IdentityProvider();
+var cert = fs.readFileSync(path.join(__dirname, '../../cert/publickey.cer'), 'utf8');
+var key = fs.readFileSync(path.join(__dirname, '../../cert/privatekey.pem'), 'utf8');
 
 var express = require('express');
-var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -16,25 +20,31 @@ delta.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //delta.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-delta.use(logger('dev'));
+//adelta.use(logger('dev'));
 delta.use(bodyParser.json());
 delta.use(bodyParser.urlencoded({ extended: false }));
 delta.use(cookieParser());
 delta.use(express.static(path.join(__dirname, 'public')));
 
+passedRoutes = [
+	"/signin",
+	"/signin-attempt",
+	"/idp"
+]
+
 delta.use(function(req, res, next) {
-  if(["/signin","/signin-attempt"].indexOf(req.path) > -1){
+  console.log("Endpoint hit:", req.path);
+  if(passedRoutes.indexOf(req.path) > -1){
     next();
     return;
   }
 
   ssa.isLoggedIn(req.cookies.token, function(isLogged){
     if(!isLogged)
-      res.redirect("/signin");    
+      res.redirect("/signin?rf=req.path");    
     else
       next();
   });
-
 });
 
 
@@ -50,11 +60,70 @@ delta.get("/", function(req, res){
 	});
 });
 
+delta.get("/idp", function(req, res){
+	if(req.query.SAMLRequest){
+		idp.decodeAndParseAuthenticationRequest({SAMLRequest:req.query.SAMLRequest}, function(err, samlReq){
+			if(err || !samlReq){
+				console.log('Request Error:', err);
+				res.redirect("/signin");
+				return;
+			}
+			ssa.getUserInformation(req.cookies.token, function(err, user){
+				if(err || !user){
+					console.log('Request Error:', err);
+					res.render("signin", {errorCount:0, logged:false, title:"Please Sign In", rf:"http://drive.do.khk.org"});
+					return;
+				}
+				console.log(samlReq);
+				var settings = {};
+				settings.sp = samlReq;
+				settings.idp = {
+					issuer: 'do.khk.org',
+					nameQualifier: 'do.khk.org',
+					privateKey: key,
+					cert: cert
+				}
+				settings.subject = {
+					email: 'khk@do.khk.org',
+					sessIndex: "",
+					attributes: [
+						{
+							name:"emailAddress",
+							value:"khk@do.khk.org"
+						},
+						{
+							name:'username',
+							value:'khk@do.khk.org',
+						},
+						{
+							name:'user',
+							value:'khk@do.khk.org'
+						}
+					]
+				}
+				settings.conditions = {
+					notOnOrAfter: new Date(Date.now() + 10800000).toISOString(),
+					notBefore: new Date(Date.now()).toISOString(),
+					audience: samlReq.acsUrl
+				};
+				idp.generateAuthenticationResponse(settings, function(err, samlResponse){
+					if(err || !samlResponse){
+						console.log("Response Err:", err);
+						res.redirect("/signin");
+						return;
+					}					
+					res.render('saml', {SAMLresponse:samlResponse, RelayState:req.query.RelayState, logged:true, title:"Logging you in to Google Drive", user:user});   
+				});
+			});
+		});
+	} else res.redirect("/signin");
+});
+
 
 delta.get("/signin", function(req, res){
   if(!req.query.e)
     req.query.e = 0;
-	res.render("signin", {errorCount:req.query.e, logged:false, title:"Please Sign In"});
+	res.render("signin", {errorCount:req.query.e, logged:false, title:"Please Sign In", rf:req.path});
 });
 delta.post("/signin-attempt", function(req, res){
   ssa.logIn(req.body.name, req.body.pass, function(err, token){
@@ -64,7 +133,10 @@ delta.post("/signin-attempt", function(req, res){
     }
     else{
       res.cookie('token', token, {expires:new Date(Date.now()+10800000), domain : "do.khk.org" })
-      res.redirect("/");
+			if(req.body.rf)
+				res.redirect(req.body.rf);
+			else
+				res.redirect("/");
     }
   });
 });
@@ -79,6 +151,7 @@ delta.get("/signout", function(req, res){
 delta.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
+  console.log(req.path);
   next(err);
 });
 

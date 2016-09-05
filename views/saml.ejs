@@ -1,7 +1,12 @@
 <% include inc/head %>
+<title>POST</title>
+<h2> Signing you in to Google Drive</h2>
 <form id="saml-acs" action="https://www.google.com/a/do.khk.org/acs" method="POST">
 	<input type="hidden" name="SAMLResponse" value="<%= SAMLresponse %>">
 	<input type="hidden" name="RelayState" value="<%= RelayState %>">
 	<input type="submit">	
 </form>
+<script>
+	document.getElementById('saml-acs').submit();
+</script>
 <% include inc/foot %>

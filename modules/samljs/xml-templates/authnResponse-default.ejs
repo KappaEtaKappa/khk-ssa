@@ -6,7 +6,7 @@
 	<saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" ID="<%=assertionId%>" IssueInstant="<%=timestamp%>" Version="2.0">
 		<saml:Issuer><%=issuer%></saml:Issuer>
 		<saml:Subject>
-			<saml:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress" NameQualifier="<%=nameQualifier%>"><%=email%></saml:NameID>
+			<saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:email" NameQualifier="<%=nameQualifier%>"><%=email%></saml:NameID>
 			<saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
 				<saml:SubjectConfirmationData <% if(!excludeInResponseTo) { %>InResponseTo="<%=spAssertionId%>"<%}%> NotOnOrAfter="<%=notOnOrAfter%>" Recipient="<%=acsUrl%>"/></saml:SubjectConfirmation>
 		</saml:Subject>

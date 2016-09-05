@@ -40,7 +40,7 @@ module.exports = function(){
 		},
 		isLoggedIn:function(token, callback){
 			db.get("SELECT * FROM access WHERE token = ?;", token, function(err, access){
-				console.log(err, access);
+				console.log("Login Check:", err, access);
 				if(err)
 					throw err;
 				else if(!access || access.exp_date < (new Date().getTime()))
