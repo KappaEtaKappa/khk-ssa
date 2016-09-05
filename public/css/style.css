@@ -80,7 +80,7 @@ a {
 #header-user-out:active {
 	background: #785393;
 }
-@media screen and (min-width: 480px) {
+@media only screen and (max-width: 1080px) {
 	#header{
 		font-size:3em;
 		height:80px;
@@ -103,7 +103,7 @@ a {
 	width: 100vw;
 	background: #ccc;
 }
-@media screen and (min-width: 480px) {
+@media only screen and (max-width: 1080px) {
 	#content{
 		padding-top:85px;
 	}
@@ -148,7 +148,7 @@ a {
 	float: right;
 	display: block;
 }
-@media screen and (min-width: 480px) {
+@media only screen and (max-width: 1080px) {
 	#signin-form {
 		width:90%;
 	}
@@ -203,7 +203,7 @@ a {
 	font-size: 3em;
 	margin-bottom: 15px;
 }
-@media screen and (min-width: 480px) {
+@media only screen and (max-width: 1080px) {
 	#applications {
 		display:block;
 	}
