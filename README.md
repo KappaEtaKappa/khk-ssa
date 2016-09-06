@@ -5,6 +5,10 @@
 ##Purpose for Development
 >With the increase in development of internal tools for the members of KHK, and the publication of these tools on our public IP, a solution for navigation and permissions needed to be created. 
 
+---
+
+>##**If you are looking to install the whole KHK platform please follow [this guide](https://github.com/KappaEtaKappa/khk-web).**
+
 ##Installation
 ```bash
 $ git clone git@github.com:/KappaEtaKappa/khk-ssa.git
