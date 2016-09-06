@@ -25,7 +25,7 @@ module.exports = function(){
 
 	if(!dbExists){
 		db.run("CREATE TABLE users (user_id INTEGER, name TEXT, hash BLOB, privilegeLevel INTEGER, loggedInSince INTEGER);");
-		db.run("CREATE TABLE apps (app_id INTEGER, name TEXT, privilegeRequired INTEGER, subdomain TEXT, icon TEXT, image TEXT);");
+		db.run("CREATE TABLE apps (app_id INTEGER PRIMARY KEY, name TEXT, privilegeRequired INTEGER, subdomain TEXT, icon TEXT, image TEXT);");
 		db.run("CREATE TABLE access (user_id INTEGER, token BLOB, exp_date INTEGER);");
 	}
 

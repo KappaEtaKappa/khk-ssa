@@ -71,7 +71,7 @@ delta.get("/idp", function(req, res){
 			ssa.getUserInformation(req.cookies.token, function(err, user){
 				if(err || !user){
 					console.log('Request Error:', err);
-					res.render("signin", {errorCount:0, logged:false, title:"Please Sign In", rf:"http://drive.do.khk.org"});
+					res.render("signin", {errorCount:0, logged:false, title:"Please Sign In", rf:"http://home.do.khk.org"});
 					return;
 				}
 				console.log(samlReq);

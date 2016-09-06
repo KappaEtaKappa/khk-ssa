@@ -43,7 +43,9 @@ a {
 #header-app {
 	display: inline-block;
 }
-
+#header-app > a > span {
+	font-size:0.9em;
+}
 #header-user {
 	display: inline-block;
 
