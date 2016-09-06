@@ -1,6 +1,10 @@
 <div id="header">
 	<div id="header-app">
-		<span>The Delta</span>
+		<span>
+			<a href="/">
+				The Delta
+			</a>
+		</span>
 		<% if(locals.title) { %>
 			<i class="fa fa-angle-right"></i>
 			<span><%- title %></span>
@@ -15,7 +19,7 @@
 				<% if(user.privilegeLevel == 2) { %>
 					<i class="fa fa-bolt admin"></i>
 				<% } %>
-				<span><%- user.name %></span>
+				<span><a href="#"><%- user.name %></a></span>
 		</div>
 	<% } else { %>
 		<div id="header-user-out">
