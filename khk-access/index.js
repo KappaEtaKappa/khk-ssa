@@ -69,6 +69,20 @@ module.exports = function(){
 					});
 			});
 		},
+		canUserAccessApplication:function(token, subdomain, callback){
+			this.getApplications(token, function(err, apps){
+				if(err) callback(err);
+				else{
+					for(var i=0; i<apps.length; i++){
+						if(apps[i].subdomain == subdomain){
+							callback(null, true);
+							return;
+						}
+					}
+					callback(null, false);
+				}
+			});
+		},
 		getUserInformation:function(token, callback){
 			this.getSessionByToken(token, function(err, access){
 				if(err)
@@ -113,7 +127,7 @@ module.exports = function(){
 			console.log("here")
 			if(!token)
 				callback("Error: no token");
-			else 
+			else{
 				this.getUserInformation(token, function(err, userObj){
 					if(err || !userObj){
 						var ejsTemplate = fs.readFileSync(__dirname + '/../views/inc/navbar-ext.ejs', "utf8")
@@ -125,21 +139,28 @@ module.exports = function(){
 						callback(null, str);
 					}
 				});
+			}
 		},
 		navbar:function(appName){
+			var subdomain = appName.toLowerCase().replace(/ /g, '');;
 			return function(req, res, next){
-				console.log("attempted access:", req.cookies.token);
+				console.log("attempted access with cookie:", req.cookies.token);
 				if(!req.cookies.token){
-				  res.redirect('http://home.do.khk.org')
+				  res.redirect('http://home.do.khk.org');
 				}else{
-				  global.ssa.getNavbar(req.cookies.token, appName, function(err, htmlStr){
-					if(err || !htmlStr)
-						res.redirect('http://home.do.khk.org');
-					else{
-					  res.locals.navbar = htmlStr;
-					  next();
-					}
-				  });
+					global.ssa.canUserAccessApplication(req.cookies.token, subdomain, function(err, canAccess){
+					  if(err || !canAccess)
+							res.redirect('http://home.do.khk.org');
+						else
+							global.ssa.getNavbar(req.cookies.token, appName, function(err, htmlStr){
+								if(err || !htmlStr)
+									res.redirect('http://home.do.khk.org');
+								else{
+									res.locals.navbar = htmlStr;
+									next();
+								}
+				  		});
+					});
 				}
 			}
 		}
