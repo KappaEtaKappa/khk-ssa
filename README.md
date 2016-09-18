@@ -28,7 +28,7 @@ $ node home.js
 ```
 
 However, if you are running as the public service, you will use systemd. This project, like most of our services, comes with a `cp` folder which contains a daemon that must be added to the `/etc/systemd/system` directory and then enabled and started just like any systemd service.
-*Fortunately when installed via khk-web(production mega repo) this is installed automatically via `./build.sh'
+####**Fortunately when installed via khk-web(production mega repo) this is installed automatically via `./build.sh'**
 ```bash
 # cp cp/khk-ssa-daemon.service /etc/systemd/system
 ```
