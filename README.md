@@ -22,12 +22,13 @@ $ npm install
 
 ##Running
 ###Development
-During development you will want to run this service just like any other node project
+During development you will want to run this service just like any other node project.
 ```bash
 $ node home.js
 ```
 
-However, during deployment, you will most likely use the standard daemon method with systemd. This project, like most of our services, comes with a `cp` folder which contains a daemon that must be added to the `/etc/systemd/system` directory and then enabled and started just like any systemd service.
+However, if you are running as the public service, you will use systemd. This project, like most of our services, comes with a `cp` folder which contains a daemon that must be added to the `/etc/systemd/system` directory and then enabled and started just like any systemd service.
+####**Fortunately when installed via khk-web(production mega repo) this is installed automatically via `./build.sh'**
 ```bash
 # cp cp/khk-ssa-daemon.service /etc/systemd/system
 ```
@@ -57,7 +58,7 @@ It should be noted that in the event that the service fails to operate successfu
 # journalctl -rl
 ```
 
-If you intend to do development on the server, be sure to stop the service.
+To stop the service. (for development/console prints)
 ```bash
 # systemctl stop khk-ssa-daemon.service
 ```
