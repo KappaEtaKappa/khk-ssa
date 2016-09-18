@@ -41,7 +41,7 @@ delta.use(function(req, res, next) {
 
   ssa.isLoggedIn(req.cookies.token, function(isLogged){
     if(!isLogged)
-      res.redirect("/signin?rf=req.path");    
+      res.redirect("/signin?rf="+req.path);    
     else
       next();
   });
