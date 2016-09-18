@@ -146,15 +146,15 @@ module.exports = function(){
 			return function(req, res, next){
 				console.log("attempted access with cookie:", req.cookies.token);
 				if(!req.cookies.token){
-				  res.redirect('http://home.do.khk.org');
+				  res.redirect('http://home.delta.khk.org');
 				}else{
 					global.ssa.canUserAccessApplication(req.cookies.token, subdomain, function(err, canAccess){
 					  if(err || !canAccess)
-							res.redirect('http://home.do.khk.org');
+							res.redirect('http://home.delta.khk.org');
 						else
 							global.ssa.getNavbar(req.cookies.token, appName, function(err, htmlStr){
 								if(err || !htmlStr)
-									res.redirect('http://home.do.khk.org');
+									res.redirect('http://home.delta.khk.org');
 								else{
 									res.locals.navbar = htmlStr;
 									next();

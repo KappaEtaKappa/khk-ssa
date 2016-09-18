@@ -9,14 +9,31 @@ server {
 		proxy_pass http://127.0.0.1:1024;
 	}
 }
+server {
+        listen 80;
+        
+        server_name d.khk.org;
+
+        location / {
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_pass http://127.0.0.1:1024;
+	}
+}
+
+server {
+    listen 80;
+    server_name drive.delta.khk.org;
+	return 301 https://drive.google.com/a/do.khk.org;
+}
 
 server {
         listen 80;
         listen 443;
-        server_name home.do.khk.org;
+        server_name the.delta.khk.org;
 	
-	ssl_certificate /opt/tls/home_do_khk_org.chained.crt;
-	ssl_certificate_key /opt/tls/home_do_khk_org.key;
+	ssl_certificate /opt/tls/home_delta.khk.org.chained.crt;
+	ssl_certificate_key /opt/tls/home_delta.khk.org.key;
         
 	ssl on;
 	ssl_session_cache  builtin:1000  shared:SSL:10m;
@@ -30,13 +47,6 @@ server {
 		proxy_pass http://localhost:1024;
 		proxy_read_timeout  90;
 
-		proxy_redirect http://localhost:1024 https://home.do.khk.org;
+		proxy_redirect http://localhost:1024 https://the.delta.khk.org;
 	}
-}
-
-
-server {
-        listen 80;
-        server_name drive.do.khk.org;
-	return 301 https://drive.google.com/a/do.khk.org;
 }

@@ -71,33 +71,33 @@ delta.get("/idp", function(req, res){
 			ssa.getUserInformation(req.cookies.token, function(err, user){
 				if(err || !user){
 					console.log('Request Error:', err);
-					res.render("signin", {errorCount:0, logged:false, title:"Please Sign In", rf:"http://home.do.khk.org"});
+					res.render("signin", {errorCount:0, logged:false, title:"Please Sign In", rf:"http://home.delta.khk.org"});
 					return;
 				}
 				console.log(samlReq);
 				var settings = {};
 				settings.sp = samlReq;
 				settings.idp = {
-					issuer: 'do.khk.org',
-					nameQualifier: 'do.khk.org',
+					issuer: 'delta.khk.org',
+					nameQualifier: 'delta.khk.org',
 					privateKey: key,
 					cert: cert
 				}
 				settings.subject = {
-					email: 'khk@do.khk.org',
+					email: 'khk@delta.khk.org',
 					sessIndex: "",
 					attributes: [
 						{
 							name:"emailAddress",
-							value:"khk@do.khk.org"
+							value:"khk@delta.khk.org"
 						},
 						{
 							name:'username',
-							value:'khk@do.khk.org',
+							value:'khk@delta.khk.org',
 						},
 						{
 							name:'user',
-							value:'khk@do.khk.org'
+							value:'khk@delta.khk.org'
 						}
 					]
 				}
@@ -132,7 +132,7 @@ delta.post("/signin-attempt", function(req, res){
       res.redirect("/signin?e="+(++req.query.errorCount));
     }
     else{
-      res.cookie('token', token, {expires:new Date(Date.now()+10800000), domain : "do.khk.org" })
+      res.cookie('token', token, {expires:new Date(Date.now()+10800000), domain : "delta.khk.org" })
 			if(req.body.rf)
 				res.redirect(req.body.rf);
 			else
