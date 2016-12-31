@@ -1,7 +1,9 @@
 <% include inc/head %>
 <form id="signin-form" action="/signin-attempt?e=<%- errorCount %>" method="POST">
 	<img src="/img/delta.png">
-	<span>Sign Into The Delta...</span>
+	<span>
+		<%= locals.m ? locals.m : 'Sign Into The Delta...' %>
+	</span>
 	<input type="text" name="name" placeholder="Name" autofocus></input>
 	<input type="password" name="pass" placeholder="Password"></input>
 	<input type="hidden" name="rf" value="<%-rf%>"></input>

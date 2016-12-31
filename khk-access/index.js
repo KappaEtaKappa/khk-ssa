@@ -100,7 +100,7 @@ module.exports = function(){
 		},
 		logIn:function(name, pass, callback){
 			db.get("SELECT user_id, hash FROM users where name = ?;", name, function(err, entry){
-				if(err)
+				if(err || !entry)
 					callback("Failed to log in. Error: " + err, null);
 				else if(entry.hash == null || hash(pass) != entry.hash)
 					callback("Failed to log in. Password does not match", null);
@@ -146,15 +146,15 @@ module.exports = function(){
 			return function(req, res, next){
 				console.log("attempted access with cookie:", req.cookies.token);
 				if(!req.cookies.token){
-				  res.redirect('http://home.delta.khk.org');
+				  res.redirect('http://the.delta.khk.org');
 				}else{
 					global.ssa.canUserAccessApplication(req.cookies.token, subdomain, function(err, canAccess){
 					  if(err || !canAccess)
-							res.redirect('http://home.delta.khk.org');
+							res.redirect('http://the.delta.khk.org');
 						else
 							global.ssa.getNavbar(req.cookies.token, appName, function(err, htmlStr){
 								if(err || !htmlStr)
-									res.redirect('http://home.delta.khk.org');
+									res.redirect('http://the.delta.khk.org');
 								else{
 									res.locals.navbar = htmlStr;
 									next();

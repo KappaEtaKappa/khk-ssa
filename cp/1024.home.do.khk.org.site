@@ -9,8 +9,8 @@ server {
   listen 443;
   server_name the.delta.khk.org;
 	
-	ssl_certificate /opt/tls/home_do_khk_org.chained.crt;
-	ssl_certificate_key /opt/tls/home_do_khk_org.key;
+	ssl_certificate /opt/tls/the.delta.khk.org.chained.crt;
+	ssl_certificate_key /opt/tls/the.delta.khk.org.key;
         
 	ssl on;
 	ssl_session_cache  builtin:1000  shared:SSL:10m;

@@ -1,8 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 var idp = require(path.join(__dirname, './modules/samljs')).IdentityProvider();
-var cert = fs.readFileSync(path.join(__dirname, '../../cert/publickey.cer'), 'utf8');
-var key = fs.readFileSync(path.join(__dirname, '../../cert/privatekey.pem'), 'utf8');
+var cert = fs.readFileSync(path.join(__dirname, '../../cert/rsacert.pem'), 'utf8');
+var key = fs.readFileSync(path.join(__dirname, '../../cert/rsaprivkey.pem'), 'utf8');
 
 var express = require('express');
 var favicon = require('serve-favicon');
@@ -68,10 +68,11 @@ delta.get("/idp", function(req, res){
 				res.redirect("/signin");
 				return;
 			}
+			console.log(samlReq)
 			ssa.getUserInformation(req.cookies.token, function(err, user){
 				if(err || !user){
 					console.log('Request Error:', err);
-					res.render("signin", {errorCount:0, logged:false, title:"Please Sign In", rf:"http://home.delta.khk.org"});
+					res.render("signin", {errorCount:req.query.e, logged:false, title:"Please Sign In", rf:"http://home.delta.khk.org"});
 					return;
 				}
 				console.log(samlReq);
@@ -123,13 +124,16 @@ delta.get("/idp", function(req, res){
 delta.get("/signin", function(req, res){
   if(!req.query.e)
     req.query.e = 0;
-	res.render("signin", {errorCount:req.query.e, logged:false, title:"Please Sign In", rf:"/"});
+	if(req.query.e > 0)
+		var m = "Failed to Authenticate";
+	res.render("signin", {errorCount:req.query.e, m:m, logged:false, title:"Please Sign In", rf:"/"});
 });
+
 delta.post("/signin-attempt", function(req, res){
   ssa.logIn(req.body.name, req.body.pass, function(err, token){
     if(err || !token){
       console.log("Signin Error:", err);
-      res.redirect("/signin?e="+(++req.query.errorCount));
+      res.redirect("/signin?e="+(!isNaN(req.query.e) ? ++req.query.e : 1));
     }
     else{
       res.cookie('token', token, {expires:new Date(Date.now()+10800000), domain : "delta.khk.org" })
