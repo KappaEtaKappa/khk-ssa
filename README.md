@@ -1,5 +1,5 @@
 # KHK Single Sign-on Access
-> _Created by Joseph Dailey_
+> _by Joseph Dailey_
 
 
 ## Purpose
@@ -69,32 +69,32 @@ var access = require("../khk-ssa/khk-access/index.js")();
 
 ### Using khk-access
 - logIn 
- - name
- - pass
- - callback
-  - On successful login `token` will be returned and may be used as a browser cookie.
+-- name
+-- pass
+-- callback
+--- On successful login `token` will be returned and may be used as a browser cookie.
 - getApplications
- - token
- - callback
+-- token
+-- callback
 - isLoggedIn
- - token
- - callback
+-- token
+-- callback
 - getSessionByToken
- - token
- - callback
+-- token
+-- callback
 - getPriviledgeLevel
- - token
- - callback
+-- token
+-- callback
 - canUserAccessApplication
- - token
- - subdomain
- - callback
+-- token
+-- subdomain
+-- callback
 - getUserInformation
- - token
- - callback
+-- token
+-- callback
 - logOut
- - token
- - callback
+-- token
+-- callback
 
 ### Navbar Injection
 KHK-Access provided a unified navbar. Your service must be registered in the applications database. (see .application.sh)
