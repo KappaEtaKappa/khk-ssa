@@ -114,5 +114,5 @@ In Handlebars...
 {{{ navbar }}}
 ```
 
-## Google Drive for Work (G Suite)
-> _Fucking magic_
+## Google Drive for Work (G Suite) Single Sign-On
+> [_Fucking magic_](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
