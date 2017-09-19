@@ -1,111 +1,113 @@
 # KHK Single Sign-on Access
-> _Created by Joseph Dailey_
+> _by Joseph Dailey_
 
 
-##Purpose for Development
->With the increase in development of internal tools for the members of KHK, and the publication of these tools on our public IP, a solution for navigation and permissions needed to be created. 
+## Purpose
+There are several services for KHK member use hosted on our public IP. This service serves as a sort of nexus for these services. It also handles user authentication and service permissions. Its final responsibility is to perfrom SAML (single sign-on) interfacing with Google Drive for Work.
 
 ---
 
->##**If you are looking to install the whole KHK platform please follow [this guide](https://github.com/KappaEtaKappa/khk-web).**
+## **If you are looking to install the whole KHK platform please follow [this guide](https://github.com/KappaEtaKappa/khk-web).**
 
-##Installation
+---
+
+## KHK-SSA Installation
 ```bash
 $ git clone git@github.com:/KappaEtaKappa/khk-ssa.git
+$ ./build.sh
 ```
+The build script will install all core components and enalbe/start the service. This is only a few simple steps.
+- Pull git updates from master
+- Install or update all NPM modules
+- Copy NGINX configuration files the nginx sites folder
+ - Test the NGINX changes
+- Copy systemd service files into the system folder
+- Enable, start, and print the status of the service.
 
->It is important to place this repo folder adjacent to all other services that consume khk-ssa's functions. (more to be seen later)
-
-```bash
-$ npm install
-```
-
-##Running
-###Development
-During development you will want to run this service just like any other node project.
+## Running the Server
+### Development Mode
+During development you will want to run this service just like any other node server.
 ```bash
 $ node home.js
 ```
 
-However, if you are running as the public service, you will use systemd. This project, like most of our services, comes with a `cp` folder which contains a daemon that must be added to the `/etc/systemd/system` directory and then enabled and started just like any systemd service.
-####**Fortunately when installed via khk-web(production mega repo) this is installed automatically via `./build.sh'**
+### Release (Running as Daemon)
 ```bash
-# cp cp/khk-ssa-daemon.service /etc/systemd/system
+$ systemctl start khk-ssa.service
+```
+This `systemd` service file is located at `./cp/khk-ssa.service` However, the local `./build` script will move this file into the correct location. 
+
+To persist the server across reboots and to auto-restart on failure, enable the service.
+```bash
+$ systemctl start khk-ssa-daemon.service
 ```
 
->Daemon is now registered with systemd
+## (Sub) Domain Resolution
+This server is managed by [NGINX](https://www.nginx.com/resources/wiki/). The main NGINX configuration is [here](https://github.com/KappaEtaKappa/khk-web/blob/master/nginx/nginx.conf). (See [this guide](https://github.com/KappaEtaKappa/khk-web) for more)
 
+## Application Database
+For services to integrate with KHK-Access, each will need to register themselves via their `.application.sh` script.
+
+### Example
 ```bash
-# systemctl enable khk-ssa-daemon.service
+#!/bin/bash
+sqlite3 ../khk-ssa/khk-access/db.sqlite "INSERT INTO apps (name, privilegeRequired, subdomain, icon) values (\"Drive\", 1, \"drive\", \"fa-file-text\");"
 ```
+### Current Privileges
+- 0 Public
+- KHK General
+- 2 KHK Admin
 
->Daemon is now enable to run on boot
+---
+## KHK-Access
+This module is used by many other services to authenticate the user as well as limit access depending on user privileges. 
 
-```bash
-# systemctl start khk-ssa-daemon.service
-```
-
->Daemon will now begin immediatly
-
-It should be noted that in the event that the service fails to operate successfully, you may want to check the logs.
-```bash
-# systemctl status khk-ssa-daemon.service
-```
-
->or
-
-```bash
-# journalctl -rl
-```
-
-To stop the service. (for development/console prints)
-```bash
-# systemctl stop khk-ssa-daemon.service
-```
-
-##How it works
-###Web Front
-Running on port `1024` as well as the subdomain `home.` you will find two navigatable pages being
-
-*Log in page
-*Home page with links to other services
-
-###khk-access
-####Access Functions
-This is the real meat of the service. This local module provides a layer to access the database (sqlite). Specific details can be found the index of the module itself, but the idea is that there are several functions which provide async requests for data such as
-
-*logging in
-*logging out
-*getting user information
-*checking privilage
-
-To use these functions in other service, simply require the module as so:
+### Require the Module
 ```node
-var ssa = require("../khk-ssa/khk-access/index.js")();
+var access = require("../khk-ssa/khk-access/index.js")();
 ```
 
-As mentioned earlier, this is where the adjacency of this service becomes important.
+### Using khk-access
+- logIn 
+-- name
+-- pass
+-- callback
+--- On successful login `token` will be returned and may be used as a browser cookie.
+- getApplications
+-- token
+-- callback
+- isLoggedIn
+-- token
+-- callback
+- getSessionByToken
+-- token
+-- callback
+- getPriviledgeLevel
+-- token
+-- callback
+- canUserAccessApplication
+-- token
+-- subdomain
+-- callback
+- getUserInformation
+-- token
+-- callback
+- logOut
+-- token
+-- callback
 
-#Navbar Injection
-Other than these access/db manipulation functions there is one special function: `navbar`
-This function is a middleware that allows any other application to utilize the common navigation bar.
-
-Firstly
+### Navbar Injection
+KHK-Access provided a unified navbar. Your service must be registered in the applications database. (see .application.sh)
 ```node
-app.use(ssa.navbar("Your app name"));
+var access = require("../khk-ssa/khk-access/index.js")();
+access.use(ssa.navbar("Your app name"));
 ```
-where "Your app name" is the string present in the khk-access applications table.
 
-Secondly, you must add the dataname into your views.
-
-EJS:
-
+In EJS you can now include the navbar...
 ```ejs
 <% navbar %>
 ```
-
-Handlebars:
-
+In Handlebars...
 ```hbs
 {{{ navbar }}}
 ```
