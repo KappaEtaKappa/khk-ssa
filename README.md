@@ -68,6 +68,7 @@ var access = require("../khk-ssa/khk-access/index.js")();
 ```
 
 ### Using khk-access
+```
 - logIn 
 -- name
 -- pass
@@ -95,6 +96,7 @@ var access = require("../khk-ssa/khk-access/index.js")();
 - logOut
 -- token
 -- callback
+```
 
 ### Navbar Injection
 KHK-Access provided a unified navbar. Your service must be registered in the applications database. (see .application.sh)
